@@ -1,0 +1,41 @@
+<html>
+  <body>
+    <p id='server-time'></p>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io("/pool");
+
+      var el = document.getElementById('server-time');
+
+      var p = {
+        pool: "test123",
+        user: {name: "p1" , pts: 232}
+      }
+
+      socket.emit('joinRoom', p);
+
+
+      setTimeout(()=>socket.emit('answer'), 5000);
+
+      var answer = () => {
+        socket.emit('answer');
+      }
+
+      socket.on('updateUserList', function(list) {
+        console.log(list);
+      });
+
+      socket.on('updateEvent', function(list) {
+        console.log(list);
+      });
+
+      socket.on('time', function(timeString) {
+        el.innerHTML = 'Server time: ' + timeString;
+      });
+
+
+    </script>
+
+    <button onclick="answer()">Answer</button>
+  </body>
+</html>
