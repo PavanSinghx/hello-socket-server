@@ -37,7 +37,10 @@ var getSongs = () => {
 
 
 /*** FIREBASE ***/
-getSongs();
+setInterval(() => {
+    getSongs();
+    log("Fetched songs");
+}, 1000 * 60 * 2)
 
 /*** ON CONNECT ***/
 
