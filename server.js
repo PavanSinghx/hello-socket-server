@@ -23,7 +23,7 @@ const io = socketIO(server);
 const poolns = io.of('/pool')
 
 var getSongs = () => {
-    var songDb = "https://hello-2044c.firebaseio.com/.json";
+    var songDb = "https://hello-9fdcc.firebaseio.com/.json";
 
     https.get(songDb, (res) => {
             res.on('data', (data) => {
@@ -40,7 +40,7 @@ var getSongs = () => {
 setInterval(() => {
     getSongs();
     log("Fetched songs");
-}, 1000 * 60 * 2)
+}, 1000 * 60)
 
 /*** ON CONNECT ***/
 
