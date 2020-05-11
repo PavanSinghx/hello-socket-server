@@ -12,11 +12,11 @@ var poolSessions = {};
 
 var userPoolMapping = {};
 
-var songList = {};
+var songList = [{ "artist": "Eifel 64", "clip": "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3", "name": "Blue" }, { "artist": "Rihanna", "clip": "http://www.hochmuth.com/mp3/Tchaikovsky_Rococo_Var_orch.mp3", "name": "Umbrella" }, { "artist": "TaTu", "clip": "http://www.hochmuth.com/mp3/Haydn_Adagio.mp3", "name": "All the things she said" }, { "artist": "Roxette", "clip": "http://www.hochmuth.com/mp3/Beethoven_12_Variation.mp3", "name": "Listen to your heart" }];
 
 const server = express()
     .use((req, res) => res.sendFile(INDEX))
-    .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+    .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 const io = socketIO(server);
 
@@ -26,10 +26,10 @@ var getSongs = () => {
     var songDb = "https://hello-9fdcc.firebaseio.com/.json";
 
     https.get(songDb, (res) => {
-            res.on('data', (data) => {
-                songList = JSON.parse(data);
-            });
-        })
+        res.on('data', (data) => {
+            songList = JSON.parse(data);
+        });
+    })
         .on('error', (e) => {
             console.error(e);
         });
@@ -46,15 +46,15 @@ setInterval(() => {
 
 poolns.on('connection', (socket) => {
 
-    socket.on('joinRoom', function(data) {
+    socket.on('joinRoom', function (data) {
         joinRoom(socket, data);
     });
 
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
         disconnectUser(socket);
     });
 
-    socket.on('answer', function(data) {
+    socket.on('answer', function (data) {
         handleAnswer(socket.id, data.pts);
     });
 });
@@ -147,7 +147,7 @@ var randomClips = (len) => {
 var handleAnswer = (socketid, pts) => {
     var poolName = userPoolMapping[socketid];
     var userPoolIndex = getUserFromSocketId(socketid);
-    
+
     poolSessions[poolName].userList[userPoolIndex].hasAnswered = true;
     poolSessions[poolName].userList[userPoolIndex].userData.pts = pts;
     console.log(poolSessions[poolName].userList[userPoolIndex]);
